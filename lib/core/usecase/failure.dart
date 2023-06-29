@@ -46,16 +46,16 @@ class ServerResponseFailure extends Failure {
   });
 }
 
-class UnknownFailure extends Failure {
-  const UnknownFailure({
-    super.errorCode = -1,
-    super.message = 'unknown error',
-  });
-}
-
 class StateExceptionFailure extends Failure {
   const StateExceptionFailure({
     super.errorCode = -1,
     super.message = 'State Exception Failure',
+  });
+}
+
+class UnknownFailure extends Failure {
+  const UnknownFailure({
+    super.errorCode = -1,
+    super.message = 'unknown error',
   });
 }
