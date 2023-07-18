@@ -51,6 +51,7 @@ class ScreenUtil {
           );
         }
 
+        
         // if (style == SystemUiOverlayStyle.dark) {
         //   SystemChrome.setSystemUIOverlayStyle(
         //       const SystemUiOverlayStyle(
