@@ -30,7 +30,7 @@ class ScreenUtil {
   }
 
   static void setAppUIOverlayStyle(
-      SystemUiOverlayStyle style, [bool isBarWhiteColor = true]) {
+      SystemUiOverlayStyle style) {
     if (!kIsWeb) {
       if (Platform.isIOS) {
         SystemChrome.setSystemUIOverlayStyle(style);
@@ -38,27 +38,43 @@ class ScreenUtil {
         if (style == SystemUiOverlayStyle.dark) {
           SystemChrome.setSystemUIOverlayStyle(
               const SystemUiOverlayStyle(
-                  statusBarColor: Colors.black,
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.dark,
+                  statusBarBrightness: Brightness.dark)
+          );
+        } else {
+          SystemChrome.setSystemUIOverlayStyle(
+              const SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
                   statusBarIconBrightness: Brightness.light,
                   statusBarBrightness: Brightness.light)
           );
-        } else {
-          if (isBarWhiteColor == false) {
-            SystemChrome.setSystemUIOverlayStyle(
-                const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light,
-                    statusBarBrightness: Brightness.light)
-            );
-          } else {
-            SystemChrome.setSystemUIOverlayStyle(
-                const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark,
-                    statusBarBrightness: Brightness.dark)
-            );
-          }
         }
+
+        // if (style == SystemUiOverlayStyle.dark) {
+        //   SystemChrome.setSystemUIOverlayStyle(
+        //       const SystemUiOverlayStyle(
+        //           statusBarColor: Colors.black,
+        //           statusBarIconBrightness: Brightness.light,
+        //           statusBarBrightness: Brightness.light)
+        //   );
+        // } else {
+        //   if (isBarWhiteColor == false) {
+        //     SystemChrome.setSystemUIOverlayStyle(
+        //         const SystemUiOverlayStyle(
+        //             statusBarColor: Colors.transparent,
+        //             statusBarIconBrightness: Brightness.light,
+        //             statusBarBrightness: Brightness.light)
+        //     );
+        //   } else {
+        //     SystemChrome.setSystemUIOverlayStyle(
+        //         const SystemUiOverlayStyle(
+        //             statusBarColor: Colors.transparent,
+        //             statusBarIconBrightness: Brightness.dark,
+        //             statusBarBrightness: Brightness.dark)
+        //     );
+        //   }
+        // }
       }
     }
   }
