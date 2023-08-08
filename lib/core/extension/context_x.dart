@@ -141,4 +141,7 @@ extension ContextExtensionss on BuildContext {
     ].whereType<T>();
     return strictValues.firstOrNull ?? looseValues.first;
   }
+
+  bool get isSystemDarkMode =>
+      (WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark);
 }
