@@ -1,7 +1,11 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class ContextHelper {
   static GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
 
-  static BuildContext? currentContext = navigatorState.currentContext;
+  static GlobalKey<ScaffoldMessengerState> scaffoldMessengerState =
+    GlobalKey<ScaffoldMessengerState>();
+
+  static BuildContext? currentContext = navigatorState.currentContext == null
+      ? scaffoldMessengerState.currentContext : null;
 }
