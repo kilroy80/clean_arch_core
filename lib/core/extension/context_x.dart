@@ -90,7 +90,11 @@ extension ContextExtensionss on BuildContext {
   double get devicePixelRatio => MediaQuery.of(this).devicePixelRatio;
 
   /// similar to [MediaQuery.of(this).textScaleFactor]
+  @Deprecated('Use textScaler instead.')
   double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
+
+  /// similar to [MediaQuery.of(this).textScaler]
+  TextScaler get textScaler => MediaQuery.of(this).textScaler;
 
   /// get the shortestSide from screen
   double get mediaQueryShortestSide => mediaQuerySize.shortestSide;
