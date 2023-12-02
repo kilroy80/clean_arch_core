@@ -18,6 +18,13 @@ abstract class Failure extends Equatable {
   }
 }
 
+class BaseFailure extends Failure {
+  const BaseFailure({
+    super.errorCode = -1,
+    super.message = 'BaseFailure',
+  });
+}
+
 class NetworkFailure extends Failure {
   const NetworkFailure({
     required super.errorCode,
