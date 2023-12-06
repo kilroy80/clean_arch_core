@@ -5,7 +5,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
     extends State<T>
     with WidgetsBindingObserver {
 
-  final String tag = T.runtimeType.toString();
+  final String tag = T.toString();
 
   late final VM _viewModel;
   VM get viewModel => _viewModel;
