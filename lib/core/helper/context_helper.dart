@@ -6,6 +6,6 @@ class ContextHelper {
   static GlobalKey<ScaffoldMessengerState> scaffoldMessengerState =
     GlobalKey<ScaffoldMessengerState>();
 
-  static BuildContext? currentContext = navigatorState.currentContext == null
-      ? scaffoldMessengerState.currentContext : null;
+  static BuildContext? currentContext =
+      navigatorState.currentContext ?? scaffoldMessengerState.currentContext;
 }
