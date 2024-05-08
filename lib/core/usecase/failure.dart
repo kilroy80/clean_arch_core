@@ -2,67 +2,67 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Failure extends Equatable {
-  final int errorCode;
+  final int code;
   final String message;
 
   const Failure({
-    required this.errorCode,
+    required this.code,
     required this.message,
   });
 
   @override
-  List<Object?> get props => [errorCode, message,];
+  List<Object?> get props => [code, message,];
 
   void handleFailure() {
-    debugPrint('handleFailure errorCode: $errorCode, message: $message');
+    debugPrint('handleFailure code: $code, message: $message');
   }
 }
 
 class BaseFailure extends Failure {
   const BaseFailure({
-    super.errorCode = -1,
+    super.code = -1,
     super.message = 'BaseFailure',
   });
 }
 
 class NetworkFailure extends Failure {
   const NetworkFailure({
-    required super.errorCode,
+    required super.code,
     required super.message,
   });
 }
 
 class ServerFailure extends Failure {
   const ServerFailure({
-    required super.errorCode,
+    required super.code,
     required super.message,
   });
 }
 
 class StorageFailure extends Failure {
   const StorageFailure({
-    required super.errorCode,
+    required super.code,
     required super.message,
   });
 }
 
 class ServerResponseFailure extends Failure {
   const ServerResponseFailure({
-    super.errorCode = -1,
+    super.code = -1,
     super.message = 'Server Response Data Error',
   });
 }
 
 class StateExceptionFailure extends Failure {
   const StateExceptionFailure({
-    super.errorCode = -1,
+    super.code = -1,
     super.message = 'State Exception Failure',
   });
 }
 
 class UnknownFailure extends Failure {
   const UnknownFailure({
-    super.errorCode = -1,
+    super.code = -1,
     super.message = 'unknown error',
   });
 }
