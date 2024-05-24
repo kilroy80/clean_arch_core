@@ -69,7 +69,7 @@ extension ContextExtensionss on BuildContext {
   EdgeInsets get mediaQueryPadding => MediaQuery.paddingOf(this);
 
   /// similar to [MediaQuery.of(context).padding]
-  MediaQueryData get mediaQuery => MediaQuery.of(this);
+  // MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   /// similar to [MediaQuery.of(context).viewPadding]
   EdgeInsets get mediaQueryViewPadding => MediaQuery.viewPaddingOf(this);
