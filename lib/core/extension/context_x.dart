@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension ContextExtensionss on BuildContext {
   /// The same of [MediaQuery.of(context).size]
-  Size get mediaQuerySize => MediaQuery.of(this).size;
+  Size get mediaQuerySize => MediaQuery.sizeOf(this);
 
   /// The same of [MediaQuery.of(context).size.height]
   /// Note: updates when you resize your screen (like on a browser or
@@ -66,19 +66,19 @@ extension ContextExtensionss on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
 
   /// similar to [MediaQuery.of(context).padding]
-  EdgeInsets get mediaQueryPadding => MediaQuery.of(this).padding;
+  EdgeInsets get mediaQueryPadding => MediaQuery.paddingOf(this);
 
   /// similar to [MediaQuery.of(context).padding]
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   /// similar to [MediaQuery.of(context).viewPadding]
-  EdgeInsets get mediaQueryViewPadding => MediaQuery.of(this).viewPadding;
+  EdgeInsets get mediaQueryViewPadding => MediaQuery.viewPaddingOf(this);
 
   /// similar to [MediaQuery.of(context).viewInsets]
-  EdgeInsets get mediaQueryViewInsets => MediaQuery.of(this).viewInsets;
+  EdgeInsets get mediaQueryViewInsets => MediaQuery.viewInsetsOf(this);
 
   /// similar to [MediaQuery.of(context).orientation]
-  Orientation get orientation => MediaQuery.of(this).orientation;
+  Orientation get orientation => MediaQuery.orientationOf(this);
 
   /// check if device is on landscape mode
   bool get isLandscape => orientation == Orientation.landscape;
@@ -87,14 +87,14 @@ extension ContextExtensionss on BuildContext {
   bool get isPortrait => orientation == Orientation.portrait;
 
   /// similar to [MediaQuery.of(this).devicePixelRatio]
-  double get devicePixelRatio => MediaQuery.of(this).devicePixelRatio;
+  double get devicePixelRatio => MediaQuery.devicePixelRatioOf(this);
 
   /// similar to [MediaQuery.of(this).textScaleFactor]
   @Deprecated('Use textScaler instead.')
   double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
 
   /// similar to [MediaQuery.of(this).textScaler]
-  TextScaler get textScaler => MediaQuery.of(this).textScaler;
+  TextScaler get textScaler => MediaQuery.textScalerOf(this);
 
   /// get the shortestSide from screen
   double get mediaQueryShortestSide => mediaQuerySize.shortestSide;
