@@ -1,6 +1,6 @@
 mixin ViewModelMixin {
 
-  late int cancelTokenHash;
+  late String cancelTokenKey;
 
   void cancel();
   void dispose();

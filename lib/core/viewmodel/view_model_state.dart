@@ -25,8 +25,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @override
   void initState() {
     super.initState();
-    _viewModel = createViewModel();
-    _viewModel.cancelTokenHash;
+    _viewModel = createViewModel()..cancelTokenKey;
 
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);
