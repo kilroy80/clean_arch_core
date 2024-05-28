@@ -1,7 +1,5 @@
 mixin ViewModelMixin {
-
-  late String cancelTokenKey;
-
+  void create();
   void cancel();
   void dispose();
 }
