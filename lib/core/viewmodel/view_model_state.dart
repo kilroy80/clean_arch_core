@@ -13,6 +13,9 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @protected
   bool get wantAppLifeCycle;
 
+  @protected
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
+
   VM createViewModel();
 
   void onAppResume();
@@ -20,6 +23,8 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   void onAppPause();
 
   void onWidgetReady();
+
+  void onWidgetPostReady();
 
   @mustCallSuper
   @override
@@ -32,6 +37,9 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       onWidgetReady();
+      Future.delayed(postReadyMilliseconds, () {
+        onWidgetPostReady();
+      });
     });
   }
 
