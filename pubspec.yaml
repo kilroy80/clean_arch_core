@@ -13,6 +13,7 @@ dependencies:
 
   dartz: ^0.10.1
   equatable: ^2.0.5
+  flutter_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:
