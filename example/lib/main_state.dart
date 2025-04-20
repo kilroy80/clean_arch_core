@@ -26,7 +26,7 @@ sealed class MainState extends MainBaseState
 //     _$MainStateFromJson(json);
 }
 
-final mainStateProvider = AutoDisposeNotifierProvider<MainNotifier, MainState>(
+final mainPageProvider = AutoDisposeNotifierProvider<MainNotifier, MainState>(
   MainNotifier.new,
 );
 
@@ -40,7 +40,7 @@ class MainNotifier extends AutoDisposeNotifier<MainState> {
     state = const MainState.load(inc: 0);
   }
 
-  Future<void> addTodo() async {
+  Future<void> increase() async {
     if (state is MainStateInit) return;
 
     state = (state as MainStateLoad).copyWith(

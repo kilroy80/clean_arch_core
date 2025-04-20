@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'main_state.dart';
 
+/// Riverpod Example
 void main() {
   runApp(
     const ProviderScope(
@@ -49,12 +50,15 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
 
   @override
   void onWidgetPostReady() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
-    ref.read(mainStateProvider.notifier).load();
+    await Future.delayed(const Duration(milliseconds: 1000));
+    ref.read(mainPageProvider.notifier).load();
   }
 
   @override
   void onWidgetReady() {
+    ref.read(mainPageProvider.notifier).listenSelf((previous, next) {
+      debugPrint('Changed from: $previous, next: $next');
+    });
   }
 
   @override
@@ -62,13 +66,14 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(mainPageProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
-        child: switch (ref.watch(mainStateProvider)) {
+        child: switch (state) {
           MainStateInit() => const Center(
             child: CircularProgressIndicator(),
           ),
@@ -79,7 +84,7 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
                 'You have pushed the button this many times:',
               ),
               Text(
-                '${ref.watch(mainStateProvider).inc}',
+                '${state.inc}',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ],
@@ -88,7 +93,7 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(mainStateProvider.notifier).addTodo();
+          ref.read(mainPageProvider.notifier).increase();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
