@@ -2,14 +2,14 @@ import 'package:clean_arch_core/core/viewmodel/view_model_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-abstract class ConsumerViewState<T extends ConsumerWidget, VM extends ViewModelMixin>
+abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
     extends ConsumerState<T>
     with WidgetsBindingObserver {
 
   final String tag = T.toString();
 
-  late final VM _notifier;
-  VM get notifier => _notifier;
+  // late final S _notifier;
+  // S get notifier => _notifier;
 
   @protected
   bool get wantAppLifeCycle;
@@ -17,7 +17,7 @@ abstract class ConsumerViewState<T extends ConsumerWidget, VM extends ViewModelM
   @protected
   Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
-  VM createNotifier();
+  // S createNotifier();
 
   void onAppResume();
 
@@ -31,7 +31,7 @@ abstract class ConsumerViewState<T extends ConsumerWidget, VM extends ViewModelM
   @override
   void initState() {
     super.initState();
-    _notifier = createNotifier()..create();
+    // _notifier = createNotifier()..create();
 
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);
@@ -50,7 +50,7 @@ abstract class ConsumerViewState<T extends ConsumerWidget, VM extends ViewModelM
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.removeObserver(this);
     }
-    _notifier.dispose();
+    // _notifier.dispose();
     super.dispose();
   }
 
