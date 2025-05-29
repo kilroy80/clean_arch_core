@@ -14,7 +14,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   bool get wantAppLifeCycle;
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 250);
 
   VM createViewModel();
 
