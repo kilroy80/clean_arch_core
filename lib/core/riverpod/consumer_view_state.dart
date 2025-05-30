@@ -15,7 +15,7 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
   bool get wantAppLifeCycle;
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 250);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
 
   // S createNotifier();
 
