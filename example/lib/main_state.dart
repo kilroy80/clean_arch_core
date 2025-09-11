@@ -38,18 +38,11 @@ sealed class MainState extends MainBaseState
 //   return 0;
 // });
 
-// final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainState>(
-//   MainNotifier.new,
-// );
-
-final mainPageProvider = AutoDisposeNotifierProvider<MainNotifier, MainState>(
+final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainState>(
   MainNotifier.new,
 );
 
-// final mainPageProvider = AutoDisposeNotifierProviderFamily<
-//     MainFamilyNotifier, MainState, int>(MainFamilyNotifier.new,);
-
-class MainNotifier extends AutoDisposeNotifier<MainState> {
+class MainNotifier extends Notifier<MainState> {
   @override
   MainState build() {
     return const MainState.init();
@@ -70,9 +63,18 @@ class MainNotifier extends AutoDisposeNotifier<MainState> {
   }
 }
 
-class MainFamilyNotifier extends AutoDisposeFamilyNotifier<MainState, int> {
+final mainPageFamilyProvider = NotifierProvider.family<
+    MainFamilyNotifier, MainState, int>(
+  MainFamilyNotifier.new,
+);
+
+class MainFamilyNotifier extends Notifier<MainState> {
+  MainFamilyNotifier(this.arg);
+
+  final int arg;
+
   @override
-  MainState build(int arg) {
+  MainState build() {
     return const MainState.init();
   }
 
