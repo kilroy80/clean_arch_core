@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class Failure extends Equatable {
   final int code;
@@ -13,9 +12,9 @@ abstract class Failure extends Equatable {
   @override
   List<Object?> get props => [code, message,];
 
-  void handleFailure() {
-    debugPrint('handleFailure code: $code, message: $message');
-  }
+  // void handleFailure() {
+  //   debugPrint('handleFailure code: $code, message: $message');
+  // }
 }
 
 class BaseFailure extends Failure {
@@ -50,6 +49,13 @@ class ServerResponseFailure extends Failure {
   const ServerResponseFailure({
     super.code = -1,
     super.message = 'Server Response Data Error',
+  });
+}
+
+class ServerParserFailure extends Failure {
+  const ServerParserFailure({
+    super.code = -1,
+    super.message = 'Server Response Data Parser Error',
   });
 }
 
