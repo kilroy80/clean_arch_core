@@ -56,7 +56,12 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
 
   @override
   void onWidgetReady() {
-    ref.read(mainPageProvider.notifier).listenSelf((previous, next) {
+    /// protected method
+    // ref.read(mainPageProvider.notifier).listenSelf((previous, next) {
+    //   debugPrint('Changed from: $previous, next: $next');
+    // });
+
+    ref.read(mainPageProvider.notifier).addListener((previous, next) {
       debugPrint('Changed from: $previous, next: $next');
     });
   }

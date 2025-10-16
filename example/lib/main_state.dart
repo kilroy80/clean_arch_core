@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -45,6 +46,9 @@ final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainState>(
 class MainNotifier extends Notifier<MainState> {
   @override
   MainState build() {
+    // listenSelf((previous, next) {
+    //   debugPrint('Changed from: $previous, next: $next');
+    // });
     return const MainState.init();
   }
 
@@ -60,6 +64,10 @@ class MainNotifier extends Notifier<MainState> {
     );
 
     // ref.notifyListeners();
+  }
+
+  void addListener(void Function(MainState? previous, MainState next) listener) {
+    listenSelf(listener);
   }
 }
 
