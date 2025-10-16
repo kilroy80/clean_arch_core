@@ -1,7 +1,7 @@
 name: clean_arch_core
-description: A new Flutter project.
+description: A Dart library that provides the foundational abstractions for implementing Clean Architecture, including UseCase, Result, and reactive View State management for UI frameworks like Bloc or Riverpod.
 version: 0.0.1
-homepage:
+homepage: https://github.com/kilroy80/clean_arch_core
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
