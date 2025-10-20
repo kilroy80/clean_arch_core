@@ -15,3 +15,4 @@ export 'package:clean_arch_core/core/viewmodel/view_model_mixin.dart';
 export 'package:clean_arch_core/core/viewmodel/view_model_state.dart';
 
 export 'package:clean_arch_core/core/riverpod/consumer_view_state.dart';
+export 'package:clean_arch_core/core/riverpod/riverpod_x.dart';

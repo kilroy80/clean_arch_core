@@ -1,3 +1,4 @@
+import 'package:clean_arch_core/clean_arch_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -43,7 +44,7 @@ final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainState>(
   MainNotifier.new,
 );
 
-class MainNotifier extends Notifier<MainState> {
+class MainNotifier extends NotifierWithListener<MainState> {
   @override
   MainState build() {
     // listenSelf((previous, next) {
@@ -69,9 +70,9 @@ class MainNotifier extends Notifier<MainState> {
     // ref.notifyListeners();
   }
 
-  void addListener(void Function(MainState? previous, MainState next) listener) {
-    listenSelf(listener);
-  }
+  // void addListener(void Function(MainState? previous, MainState next) listener) {
+  //   listenSelf(listener);
+  // }
 }
 
 final mainPageFamilyProvider = NotifierProvider.family<
