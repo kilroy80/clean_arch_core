@@ -49,6 +49,9 @@ class MainNotifier extends Notifier<MainState> {
     // listenSelf((previous, next) {
     //   debugPrint('Changed from: $previous, next: $next');
     // });
+    ref.onDispose(() {
+      debugPrint('$this: dispose');
+    });
     return const MainState.init();
   }
 
