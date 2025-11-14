@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:clean_arch_core/clean_arch_core.dart';
 import 'package:clean_arch_core/core/riverpod/consumer_view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,7 +74,9 @@ class MyHomePage extends ConsumerStatefulWidget {
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends ConsumerViewState<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage>
+  with ConsumerViewStateMixin<MyHomePage>,
+      WidgetsBindingObserver {
 
   @override
   void onAppPause() {
@@ -100,7 +105,10 @@ class _MyHomePageState extends ConsumerViewState<MyHomePage> {
   }
 
   @override
-  bool get wantAppLifeCycle => false;
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    handleLifecycle(state);
+  }
 
   @override
   Widget build(BuildContext context) {
