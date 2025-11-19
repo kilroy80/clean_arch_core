@@ -70,6 +70,14 @@ class MainNotifier extends NotifierWithListener<MainState> {
     // ref.notifyListeners();
   }
 
+  @override
+  void widgetPause() {
+  }
+
+  @override
+  void widgetResume() {
+  }
+
   // void addListener(void Function(MainState? previous, MainState next) listener) {
   //   listenSelf(listener);
   // }
@@ -80,7 +88,7 @@ final mainPageFamilyProvider = NotifierProvider.family<
   MainFamilyNotifier.new,
 );
 
-class MainFamilyNotifier extends Notifier<MainState> {
+class MainFamilyNotifier extends NotifierWithListener<MainState> {
   MainFamilyNotifier(this.arg);
 
   final int arg;
@@ -102,5 +110,13 @@ class MainFamilyNotifier extends Notifier<MainState> {
     );
 
     // ref.notifyListeners();
+  }
+
+  @override
+  void widgetPause() {
+  }
+
+  @override
+  void widgetResume() {
   }
 }

@@ -30,7 +30,8 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @override
   void initState() {
     super.initState();
-    _viewModel = createViewModel()..create();
+    // _viewModel = createViewModel()..create();
+    _viewModel = createViewModel();
 
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);
@@ -49,7 +50,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.removeObserver(this);
     }
-    _viewModel.dispose();
+    // _viewModel.dispose();
     super.dispose();
   }
 

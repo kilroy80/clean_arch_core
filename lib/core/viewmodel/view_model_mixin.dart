@@ -1,5 +1,9 @@
 mixin ViewModelMixin {
-  void create();
-  void cancel();
-  void dispose();
+  // void create();
+  // void dispose();
+  // void cancel();
+
+  void authChange();
+  void widgetResume();
+  void widgetPause();
 }
