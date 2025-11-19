@@ -3,6 +3,7 @@ mixin ViewModelMixin {
   // void dispose();
   // void cancel();
 
+  void create();
   void authChange();
   void widgetResume();
   void widgetPause();
