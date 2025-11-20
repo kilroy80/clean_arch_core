@@ -3,35 +3,36 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'main_state.freezed.dart';
+part 'main_river_state.freezed.dart';
 
-class MainBaseState {
-  const MainBaseState({
-    this.inc = 0,
-  });
-
-  final int inc;
+@freezed
+abstract class MainRiverData with _$MainRiverData {
+  const factory MainRiverData({
+    @Default(0) int inc,
+  }) = _MainRiverData;
 }
 
 @freezed
-sealed class MainState extends MainBaseState
-    with _$MainState {
+sealed class MainRiverState
+    with _$MainRiverState {
 
-  const MainState._() : super();
-
-  const factory MainState.init() = MainStateInit;
-  const factory MainState.load({
-    @Default(0) int inc,
-  }) = MainStateLoad;
+  const factory MainRiverState.init({
+    @Default(MainRiverData()) MainRiverData data,
+  }) = MainRiverStateInit;
+  const factory MainRiverState.load({
+    @Default(MainRiverData()) MainRiverData data,
+  }) = MainRiverStateLoad;
 
 // factory MainState.fromJson(Map<String, Object?> json) =>
 //     _$MainStateFromJson(json);
 }
 
+/// StateProvider deprecate >= riverpod 3.0.0
 // final stateProvider = StateProvider.autoDispose<int>((ref) {
 //   return 0;
 // });
 //
+
 // final provider = Provider.autoDispose<int>((ref) {
 //   return 0;
 // });
@@ -40,31 +41,33 @@ sealed class MainState extends MainBaseState
 //   return 0;
 // });
 
-final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainState>(
+final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainRiverState>(
   MainNotifier.new,
 );
 
-class MainNotifier extends NotifierWithListener<MainState> {
+class MainNotifier extends NotifierWithListener<MainRiverState> {
   @override
-  MainState build() {
+  MainRiverState build() {
     // listenSelf((previous, next) {
     //   debugPrint('Changed from: $previous, next: $next');
     // });
     ref.onDispose(() {
       debugPrint('$this: dispose');
     });
-    return const MainState.init();
+    return const MainRiverState.init();
   }
 
   Future<void> load() async {
-    state = const MainState.load(inc: 0);
+    state = const MainRiverState.load();
   }
 
   Future<void> increase() async {
-    if (state is MainStateInit) return;
+    if (state is MainRiverStateInit) return;
 
-    state = (state as MainStateLoad).copyWith(
-      inc: state.inc + 1,
+    state = state.copyWith(
+      data: state.data.copyWith(
+        inc: state.data.inc + 1,
+      ),
     );
 
     // ref.notifyListeners();
@@ -77,36 +80,34 @@ class MainNotifier extends NotifierWithListener<MainState> {
   @override
   void widgetResume() {
   }
-
-  // void addListener(void Function(MainState? previous, MainState next) listener) {
-  //   listenSelf(listener);
-  // }
 }
 
 final mainPageFamilyProvider = NotifierProvider.family<
-    MainFamilyNotifier, MainState, int>(
+    MainFamilyNotifier, MainRiverState, int>(
   MainFamilyNotifier.new,
 );
 
-class MainFamilyNotifier extends NotifierWithListener<MainState> {
+class MainFamilyNotifier extends NotifierWithListener<MainRiverState> {
   MainFamilyNotifier(this.arg);
 
   final int arg;
 
   @override
-  MainState build() {
-    return const MainState.init();
+  MainRiverState build() {
+    return const MainRiverState.init();
   }
 
   Future<void> load() async {
-    state = const MainState.load(inc: 0);
+    state = const MainRiverState.load();
   }
 
   Future<void> increase() async {
-    if (state is MainStateInit) return;
+    if (state is MainRiverStateInit) return;
 
-    state = (state as MainStateLoad).copyWith(
-      inc: state.inc + 1,
+    state = state.copyWith(
+      data: state.data.copyWith(
+        inc: state.data.inc + 1,
+      ),
     );
 
     // ref.notifyListeners();

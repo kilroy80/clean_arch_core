@@ -11,16 +11,12 @@ abstract class Failure extends Equatable {
 
   @override
   List<Object?> get props => [code, message,];
-
-  // void handleFailure() {
-  //   debugPrint('handleFailure code: $code, message: $message');
-  // }
 }
 
 class BaseFailure extends Failure {
   const BaseFailure({
     super.code = -1,
-    super.message = 'BaseFailure',
+    super.message = 'Base Failure',
   });
 }
 
@@ -69,6 +65,6 @@ class StateExceptionFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure({
     super.code = -1,
-    super.message = 'unknown error',
+    super.message = 'Unknown Failure',
   });
 }

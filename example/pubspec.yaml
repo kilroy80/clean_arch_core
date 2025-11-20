@@ -38,6 +38,8 @@ dependencies:
 
   clean_arch_core:
     path: ../
+
+  flutter_bloc: ^9.1.1
   flutter_riverpod: ^3.0.0
 
   json_annotation: ^4.9.0
