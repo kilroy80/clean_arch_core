@@ -1,10 +1,10 @@
-mixin ViewModelMixin<AT> {
+mixin ViewModelMixin {
   // void create();
   // void dispose();
   // void cancel();
 
   void create();
-  void authChange(AT data);
+  void authChange<T>(T? data);
   void widgetResume();
   void widgetPause();
 }
