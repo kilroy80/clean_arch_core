@@ -4,7 +4,7 @@ mixin ViewModelMixin {
   // void cancel();
 
   void create();
-  void authChange<T>(T data);
+  void authChange<T>(T? data);
   void widgetResume();
   void widgetPause();
 }
