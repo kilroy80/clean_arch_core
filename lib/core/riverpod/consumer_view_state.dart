@@ -8,16 +8,11 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
 
   final String tag = T.toString();
 
-  // late final S _notifier;
-  // S get notifier => _notifier;
-
   @protected
   bool get wantAppLifeCycle;
 
   @protected
   Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
-
-  // S createNotifier();
 
   void onAppResume();
 
@@ -31,7 +26,6 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
   @override
   void initState() {
     super.initState();
-    // _notifier = createNotifier()..create();
 
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);
@@ -57,10 +51,24 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed && wantAppLifeCycle) {
-      onAppResume();
-    } else if (state == AppLifecycleState.paused && wantAppLifeCycle) {
-      onAppPause();
+    if (wantAppLifeCycle == false) return;
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        onAppResume();
+        break;
+      case AppLifecycleState.paused:
+        onAppPause();
+        break;
+      case AppLifecycleState.inactive:
+      // onAppInactive();
+        break;
+      case AppLifecycleState.detached:
+      // onAppDetached();
+        break;
+      case AppLifecycleState.hidden:
+      // onAppHidden();
+        break;
     }
   }
 }

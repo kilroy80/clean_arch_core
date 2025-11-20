@@ -25,8 +25,7 @@ mixin ViewModelStateMixin<T extends StatefulWidget, VM extends ViewModelMixin>
   @override
   void initState() {
     super.initState();
-    // _viewModel = createViewModel()..create();
-    _viewModel = createViewModel();
+    _viewModel = createViewModel()..create();
 
     if (this is WidgetsBindingObserver) {
       WidgetsBinding.instance.addObserver(this as WidgetsBindingObserver);

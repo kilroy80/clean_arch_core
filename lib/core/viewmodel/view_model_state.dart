@@ -57,10 +57,24 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed && wantAppLifeCycle) {
-      onAppResume();
-    } else if (state == AppLifecycleState.paused && wantAppLifeCycle) {
-      onAppPause();
+    if (wantAppLifeCycle == false) return;
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        onAppResume();
+        break;
+      case AppLifecycleState.paused:
+        onAppPause();
+        break;
+      case AppLifecycleState.inactive:
+      // onAppInactive();
+        break;
+      case AppLifecycleState.detached:
+      // onAppDetached();
+        break;
+      case AppLifecycleState.hidden:
+      // onAppHidden();
+        break;
     }
   }
 }

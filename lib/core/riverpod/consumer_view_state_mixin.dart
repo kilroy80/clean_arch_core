@@ -6,13 +6,8 @@ mixin ConsumerViewStateMixin<T extends ConsumerStatefulWidget>
 
   final String tag = T.toString();
 
-  // late final S _notifier;
-  // S get notifier => _notifier;
-
   @protected
   Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
-
-  // S createNotifier();
 
   void onAppResume();
 
@@ -26,7 +21,6 @@ mixin ConsumerViewStateMixin<T extends ConsumerStatefulWidget>
   @override
   void initState() {
     super.initState();
-    // _notifier = createNotifier()..create();
 
     if (this is WidgetsBindingObserver) {
       WidgetsBinding.instance.addObserver(this as WidgetsBindingObserver);
@@ -45,7 +39,6 @@ mixin ConsumerViewStateMixin<T extends ConsumerStatefulWidget>
     if (this is WidgetsBindingObserver) {
       WidgetsBinding.instance.removeObserver(this as WidgetsBindingObserver);
     }
-    // _notifier.dispose();
     super.dispose();
   }
 
