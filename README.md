@@ -1,7 +1,7 @@
 # clean_arch_core
 
 A **Dart library** that provides the foundational abstractions for implementing **Clean Architecture**,  
-including `UseCase`, `Result`, and reactive **View State** management for UI frameworks like **Bloc** or **Riverpod**.
+including `UseCase`, `Success`, `Failure`, and reactive **View State** management for UI frameworks like **Bloc** or **Riverpod**.
 
 ---
 
@@ -26,72 +26,9 @@ Data          →  Repository / API
 ## Features
 
 - **UseCase abstraction** — clean domain logic
-- **Result** type — unified success/error handling
+- **Success** / **Failure** type — unified success/error handling
 - **ViewModelState** / **ConsumerViewState** — structured, reactive UI states
 - **Integrates seamlessly** with Bloc, Riverpod, or any Flutter architecture
-
----
-
-## Example — Basic Flutter
-
-A simplified version of the `example/lib/main.dart`:
-
-```dart
-import 'package:clean_arch_core/clean_arch_core.dart';
-import 'package:flutter/material.dart';
-
-class IncrementUseCase extends UseCase<int, int> {
-  @override
-  Future<Result<int>> call(int count) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return Success(count + 1);
-  }
-}
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) => const MaterialApp(home: MyHomePage());
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final _useCase = IncrementUseCase();
-  int _count = 0;
-  bool _loading = false;
-
-  Future<void> _increment() async {
-    setState(() => _loading = true);
-    final result = await _useCase(_count);
-    result.when(
-      success: (value) => _count = value,
-      failure: (_) => debugPrint('Error'),
-    );
-    setState(() => _loading = false);
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Clean Arch Example')),
-        body: Center(
-          child: _loading
-              ? const CircularProgressIndicator()
-              : Text('Count: $_count'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _increment,
-          child: const Icon(Icons.add),
-        ),
-      );
-}
-```
 
 ---
 
@@ -101,66 +38,182 @@ When using **Bloc**, you can extend `ViewModelState` to manage UI states more de
 `ViewModelState` provides helpers for common state transitions (idle → loading → success → error).
 
 ```dart
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clean_arch_core/clean_arch_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// Domain logic
-class IncrementUseCase extends UseCase<int, int> {
-  @override
-  Future<Result<int>> call(int count) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return Success(count + 1);
-  }
-}
-
-// View State extending ViewModelState
-class CounterState extends ViewModelState<int> {
-  const CounterState({
-    super.data,
-    super.isLoading = false,
-    super.error,
-  });
-
-  CounterState copyWith({
-    int? data,
-    bool? isLoading,
-    Object? error,
-  }) =>
-      CounterState(
-        data: data ?? this.data,
-        isLoading: isLoading ?? this.isLoading,
-        error: error ?? this.error,
-      );
-}
-
-// Bloc Implementation
-class CounterBloc extends Bloc<void, CounterState> {
-  final IncrementUseCase useCase;
-
-  CounterBloc(this.useCase) : super(const CounterState(data: 0)) {
-    on<void>((event, emit) async {
-      emit(state.copyWith(isLoading: true));
-      final result = await useCase(state.data ?? 0);
-      result.when(
-        success: (value) =>
-            emit(state.copyWith(data: value, isLoading: false)),
-        failure: (e) =>
-            emit(state.copyWith(isLoading: false, error: e)),
-      );
+class MainBloc
+    extends Bloc<MainEvent, MainState>
+    with ViewModelMixin {
+  MainBloc() : super(const MainState.init()) {
+    on<MainEvent>((event, emit) {
+      switch (event) {
+        case _Load():
+          _load(event, emit);
+        case _Increase():
+          _increase(event, emit);
+      }
     });
   }
+
+  Future<void> _load(_Load event, Emitter<MainState> emit) async {
+    emit(const MainState.load());
+  }
+
+  Future<void> _increase(_Increase event, Emitter<MainState> emit) async {
+    emit(
+      state.copyWith(
+        data: state.data.copyWith(
+          inc: state.data.inc + 1,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void authChange<T>(T? data) {
+  }
+
+  @override
+  void create() {
+  }
+
+  @override
+  void widgetPause() {
+  }
+
+  @override
+  void widgetResume() {
+  }
+}
+
+@freezed
+sealed class MainEvent with _$MainEvent {
+  const factory MainEvent.load() = _Load;
+  const factory MainEvent.increase() = _Increase;
+}
+
+@freezed
+abstract class MainBlocData with _$MainBlocData {
+  const factory MainBlocData({
+    @Default(0) int inc,
+  }) = _MainBlocData;
+}
+
+@freezed
+sealed class MainState with _$MainState {
+  const factory MainState.init({
+    @Default(MainBlocData()) MainBlocData data,
+  }) = MainStateInit;
+  const factory MainState.load({
+    @Default(MainBlocData()) MainBlocData data,
+  }) = MainStateLoad;
 }
 ```
 
 In your widget:
 
 ```dart
-BlocBuilder<CounterBloc, CounterState>(
-  builder: (context, state) {
-    if (state.isLoading) return const CircularProgressIndicator();
-    return Text('Count: ${state.data}');
-  },
-);
+class BlocPage extends StatefulWidget {
+  const BlocPage({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  State<BlocPage> createState() => _BlocPageState();
+}
+
+///
+///  // mixin type example
+///  class _BlocPageState extends State<BlocPage> {
+///     with ViewModelStateMixin<BlocPage, MainBloc>, WidgetsBindingObserver
+///  }
+///
+///  // state extends type example
+///  class _BlocPageState extends ViewModelState<BlocPage, MainBloc> {
+///    with ViewModelStateMixin<BlocPage, MainBloc>
+///  }
+///
+class _BlocPageState extends State<BlocPage>
+    with ViewModelStateMixin<BlocPage, MainBloc>,
+        WidgetsBindingObserver {
+
+  @override
+  MainBloc createViewModel() => MainBloc();
+
+  @override
+  void onAppPause() {
+  }
+
+  @override
+  void onAppResume() {
+  }
+
+  @override
+  void onWidgetPostReady() {
+    viewModel.add(const MainEvent.load());
+  }
+
+  @override
+  void onWidgetReady() {
+  }
+
+  /// state type
+  // @override
+  // bool get wantAppLifeCycle => true;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    /// mixin type
+    super.handleLifecycle(state);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: BlocConsumer(
+        bloc: viewModel,
+        listener: (BuildContext context, MainState state) {},
+        builder: (BuildContext context, MainState state) {
+          return Center(
+            child: switch (state) {
+              MainStateInit() => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              MainStateLoad() => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '${state.data.inc}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          viewModel.add(const MainEvent.increase());
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
 ```
 
 This example keeps UI state predictable and testable through `ViewModelState`.
@@ -172,58 +225,158 @@ This example keeps UI state predictable and testable through `ViewModelState`.
 For **Riverpod**, `ConsumerViewState` can be used to encapsulate UI logic in a declarative and reactive way.
 
 ```dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clean_arch_core/clean_arch_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class IncrementUseCase extends UseCase<int, int> {
-  @override
-  Future<Result<int>> call(int count) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return Success(count + 1);
-  }
+@freezed
+abstract class MainRiverData with _$MainRiverData {
+  const factory MainRiverData({
+    @Default(0) int inc,
+  }) = _MainRiverData;
 }
 
-// Extend ConsumerViewState
-class CounterViewState extends ConsumerViewState<int> {
-  CounterViewState({required this.useCase})
-      : super(const ConsumerStateContent(data: 0));
+@freezed
+sealed class MainRiverState
+    with _$MainRiverState {
 
-  final IncrementUseCase useCase;
+  const factory MainRiverState.init({
+    @Default(MainRiverData()) MainRiverData data,
+  }) = MainRiverStateInit;
+  const factory MainRiverState.load({
+    @Default(MainRiverData()) MainRiverData data,
+  }) = MainRiverStateLoad;
 
-  Future<void> increment() async {
-    setLoading(true);
-    final result = await useCase(data ?? 0);
-    result.when(
-      success: (value) => setData(value),
-      failure: (e) => setError(e),
-    );
-    setLoading(false);
-  }
+  factory MainState.fromJson(Map<String, Object?> json) =>
+      _$MainStateFromJson(json);
 }
 
-final counterProvider = StateNotifierProvider<CounterViewState, ConsumerStateContent<int>>(
-  (ref) => CounterViewState(useCase: IncrementUseCase()),
+final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainRiverState>(
+  MainNotifier.new,
 );
+
+class MainNotifier extends NotifierWithListener<MainRiverState> {
+  @override
+  MainRiverState build() {
+    ref.onDispose(() {
+      // dispose logic
+    });
+    return const MainRiverState.init();
+  }
+
+  Future<void> load() async {
+    state = const MainRiverState.load();
+  }
+
+  Future<void> increase() async {
+    if (state is MainRiverStateInit) return;
+
+    state = state.copyWith(
+      data: state.data.copyWith(
+        inc: state.data.inc + 1,
+      ),
+    );
+  }
+
+  @override
+  void widgetPause() {
+  }
+
+  @override
+  void widgetResume() {
+  }
+}
 ```
 
 Usage in a widget:
 
 ```dart
-Widget build(BuildContext context, WidgetRef ref) {
-  final state = ref.watch(counterProvider);
-  final notifier = ref.read(counterProvider.notifier);
+class RiverPodPage extends ConsumerStatefulWidget {
+  const RiverPodPage({super.key, required this.title});
 
-  return Scaffold(
-    body: Center(
-      child: state.isLoading
-          ? const CircularProgressIndicator()
-          : Text('Count: ${state.data}'),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: notifier.increment,
-      child: const Icon(Icons.add),
-    ),
-  );
+  final String title;
+
+  @override
+  ConsumerState<RiverPodPage> createState() => _RiverPodPageState();
+}
+
+///
+///  // mixin type example
+///  class _RiverPodPageState extends ConsumerState<RiverPodPage> {
+///     with ConsumerViewStateMixin<RiverPodPage>, WidgetsBindingObserver
+///  }
+///
+///  // state extends type example
+///  class _RiverPodPageState extends ConsumerViewState<RiverPodPage> {
+///  }
+///
+class _RiverPodPageState extends ConsumerState<RiverPodPage>
+    with ConsumerViewStateMixin<RiverPodPage>,
+        WidgetsBindingObserver {
+
+  @override
+  void onAppPause() {
+  }
+
+  @override
+  void onAppResume() {
+  }
+
+  @override
+  void onWidgetPostReady() async {
+    ref.read(mainPageProvider.notifier).load();
+  }
+
+  @override
+  void onWidgetReady() {
+    ref.read(mainPageProvider.notifier).addListener((previous, next) {
+      debugPrint('Changed from: $previous, next: $next');
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    /// mixin type
+    super.handleLifecycle(state);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(mainPageProvider);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: switch (state) {
+          MainRiverStateInit() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          MainRiverStateLoad() => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '${state.data.inc}',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ],
+          ),
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(mainPageProvider.notifier).increase();
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
 }
 ```
 
