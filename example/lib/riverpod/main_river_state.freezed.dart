@@ -24,6 +24,9 @@ mixin _$MainRiverData implements DiagnosticableTreeMixin {
       _$MainRiverDataCopyWithImpl<MainRiverData>(
           this as MainRiverData, _$identity);
 
+  /// Serializes this MainRiverData to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
@@ -39,6 +42,7 @@ mixin _$MainRiverData implements DiagnosticableTreeMixin {
             (identical(other.inc, inc) || other.inc == inc));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, inc);
 
@@ -239,9 +243,11 @@ extension MainRiverDataPatterns on MainRiverData {
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _MainRiverData with DiagnosticableTreeMixin implements MainRiverData {
   const _MainRiverData({this.inc = 0});
+  factory _MainRiverData.fromJson(Map<String, dynamic> json) =>
+      _$MainRiverDataFromJson(json);
 
   @override
   @JsonKey()
@@ -254,6 +260,13 @@ class _MainRiverData with DiagnosticableTreeMixin implements MainRiverData {
   @pragma('vm:prefer-inline')
   _$MainRiverDataCopyWith<_MainRiverData> get copyWith =>
       __$MainRiverDataCopyWithImpl<_MainRiverData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$MainRiverDataToJson(
+      this,
+    );
+  }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -270,6 +283,7 @@ class _MainRiverData with DiagnosticableTreeMixin implements MainRiverData {
             (identical(other.inc, inc) || other.inc == inc));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, inc);
 
@@ -314,6 +328,19 @@ class __$MainRiverDataCopyWithImpl<$Res>
   }
 }
 
+MainRiverState _$MainRiverStateFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'init':
+      return MainRiverStateInit.fromJson(json);
+    case 'load':
+      return MainRiverStateLoad.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'MainRiverState',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$MainRiverState implements DiagnosticableTreeMixin {
   MainRiverData get data;
@@ -325,6 +352,9 @@ mixin _$MainRiverState implements DiagnosticableTreeMixin {
   $MainRiverStateCopyWith<MainRiverState> get copyWith =>
       _$MainRiverStateCopyWithImpl<MainRiverState>(
           this as MainRiverState, _$identity);
+
+  /// Serializes this MainRiverState to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -341,6 +371,7 @@ mixin _$MainRiverState implements DiagnosticableTreeMixin {
             (identical(other.data, data) || other.data == data));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
@@ -567,15 +598,22 @@ extension MainRiverStatePatterns on MainRiverState {
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class MainRiverStateInit
     with DiagnosticableTreeMixin
     implements MainRiverState {
-  const MainRiverStateInit({this.data = const MainRiverData()});
+  const MainRiverStateInit(
+      {this.data = const MainRiverData(), final String? $type})
+      : $type = $type ?? 'init';
+  factory MainRiverStateInit.fromJson(Map<String, dynamic> json) =>
+      _$MainRiverStateInitFromJson(json);
 
   @override
   @JsonKey()
   final MainRiverData data;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   /// Create a copy of MainRiverState
   /// with the given fields replaced by the non-null parameter values.
@@ -584,6 +622,13 @@ class MainRiverStateInit
   @pragma('vm:prefer-inline')
   $MainRiverStateInitCopyWith<MainRiverStateInit> get copyWith =>
       _$MainRiverStateInitCopyWithImpl<MainRiverStateInit>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$MainRiverStateInitToJson(
+      this,
+    );
+  }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -600,6 +645,7 @@ class MainRiverStateInit
             (identical(other.data, data) || other.data == data));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
@@ -658,15 +704,22 @@ class _$MainRiverStateInitCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class MainRiverStateLoad
     with DiagnosticableTreeMixin
     implements MainRiverState {
-  const MainRiverStateLoad({this.data = const MainRiverData()});
+  const MainRiverStateLoad(
+      {this.data = const MainRiverData(), final String? $type})
+      : $type = $type ?? 'load';
+  factory MainRiverStateLoad.fromJson(Map<String, dynamic> json) =>
+      _$MainRiverStateLoadFromJson(json);
 
   @override
   @JsonKey()
   final MainRiverData data;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   /// Create a copy of MainRiverState
   /// with the given fields replaced by the non-null parameter values.
@@ -675,6 +728,13 @@ class MainRiverStateLoad
   @pragma('vm:prefer-inline')
   $MainRiverStateLoadCopyWith<MainRiverStateLoad> get copyWith =>
       _$MainRiverStateLoadCopyWithImpl<MainRiverStateLoad>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$MainRiverStateLoadToJson(
+      this,
+    );
+  }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -691,6 +751,7 @@ class MainRiverStateLoad
             (identical(other.data, data) || other.data == data));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, data);
 

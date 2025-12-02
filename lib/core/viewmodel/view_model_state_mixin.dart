@@ -10,7 +10,7 @@ mixin ViewModelStateMixin<T extends StatefulWidget, VM extends ViewModelMixin>
   VM get viewModel => _viewModel;
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   VM createViewModel();
 

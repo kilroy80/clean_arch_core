@@ -12,7 +12,7 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
   bool get wantAppLifeCycle;
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   void onAppResume();
 
@@ -44,7 +44,6 @@ abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.removeObserver(this);
     }
-    // _notifier.dispose();
     super.dispose();
   }
 

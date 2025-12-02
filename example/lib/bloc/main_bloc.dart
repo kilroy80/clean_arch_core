@@ -10,12 +10,12 @@ class MainBloc
     extends Bloc<MainEvent, MainState>
     with ViewModelMixin {
   MainBloc() : super(const MainState.init()) {
-    on<MainEvent>((event, emit) {
+    on<MainEvent>((event, emit) async {
       switch (event) {
         case _Load():
-          _load(event, emit);
+          await _load(event, emit);
         case _Increase():
-          _increase(event, emit);
+          await _increase(event, emit);
       }
     });
   }

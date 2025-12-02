@@ -7,7 +7,7 @@ mixin ConsumerViewStateMixin<T extends ConsumerStatefulWidget>
   final String tag = T.toString();
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   void onAppResume();
 

@@ -14,7 +14,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   bool get wantAppLifeCycle;
 
   @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 300);
+  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   VM createViewModel();
 
@@ -30,8 +30,7 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @override
   void initState() {
     super.initState();
-    // _viewModel = createViewModel()..create();
-    _viewModel = createViewModel();
+    _viewModel = createViewModel()..create();
 
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);

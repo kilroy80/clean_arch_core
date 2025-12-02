@@ -4,12 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'main_river_state.freezed.dart';
+part 'main_river_state.g.dart';
 
 @freezed
 abstract class MainRiverData with _$MainRiverData {
   const factory MainRiverData({
     @Default(0) int inc,
   }) = _MainRiverData;
+
+  factory MainRiverData.fromJson(Map<String, Object?> json) =>
+      _$MainRiverDataFromJson(json);
 }
 
 @freezed
@@ -23,8 +27,8 @@ sealed class MainRiverState
     @Default(MainRiverData()) MainRiverData data,
   }) = MainRiverStateLoad;
 
-// factory MainState.fromJson(Map<String, Object?> json) =>
-//     _$MainStateFromJson(json);
+  factory MainRiverState.fromJson(Map<String, Object?> json) =>
+      _$MainRiverStateFromJson(json);
 }
 
 /// StateProvider deprecate >= riverpod 3.0.0
@@ -33,6 +37,7 @@ sealed class MainRiverState
 // });
 //
 
+/// Provider, FutureProvider not used
 // final provider = Provider.autoDispose<int>((ref) {
 //   return 0;
 // });
@@ -41,7 +46,8 @@ sealed class MainRiverState
 //   return 0;
 // });
 
-final mainPageProvider = NotifierProvider.autoDispose<MainNotifier, MainRiverState>(
+final mainPageProvider = NotifierProvider.autoDispose<
+    MainNotifier, MainRiverState>(
   MainNotifier.new,
 );
 
@@ -69,8 +75,6 @@ class MainNotifier extends NotifierWithListener<MainRiverState> {
         inc: state.data.inc + 1,
       ),
     );
-
-    // ref.notifyListeners();
   }
 
   @override
@@ -109,8 +113,6 @@ class MainFamilyNotifier extends NotifierWithListener<MainRiverState> {
         inc: state.data.inc + 1,
       ),
     );
-
-    // ref.notifyListeners();
   }
 
   @override

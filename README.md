@@ -46,12 +46,12 @@ class MainBloc
     extends Bloc<MainEvent, MainState>
     with ViewModelMixin {
   MainBloc() : super(const MainState.init()) {
-    on<MainEvent>((event, emit) {
+    on<MainEvent>((event, emit) async {
       switch (event) {
         case _Load():
-          _load(event, emit);
+          await _load(event, emit);
         case _Increase():
-          _increase(event, emit);
+          await _increase(event, emit);
       }
     });
   }
@@ -128,11 +128,13 @@ class BlocPage extends StatefulWidget {
 
 ///
 ///  // mixin type example
+///  ```dart
 ///  class _BlocPageState extends State<BlocPage> {
 ///     with ViewModelStateMixin<BlocPage, MainBloc>, WidgetsBindingObserver
 ///  }
 ///
 ///  // state extends type example
+///  ```dart
 ///  class _BlocPageState extends ViewModelState<BlocPage, MainBloc> {
 ///    with ViewModelStateMixin<BlocPage, MainBloc>
 ///  }
@@ -302,11 +304,13 @@ class RiverPodPage extends ConsumerStatefulWidget {
 
 ///
 ///  // mixin type example
+///  ```dart
 ///  class _RiverPodPageState extends ConsumerState<RiverPodPage> {
 ///     with ConsumerViewStateMixin<RiverPodPage>, WidgetsBindingObserver
 ///  }
 ///
 ///  // state extends type example
+///  ```dart
 ///  class _RiverPodPageState extends ConsumerViewState<RiverPodPage> {
 ///  }
 ///
