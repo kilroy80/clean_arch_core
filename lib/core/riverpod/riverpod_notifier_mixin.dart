@@ -6,7 +6,7 @@ abstract class NotifierWithListener<ValueT> extends Notifier<ValueT> {
     listenSelf(listener);
   }
 
-  void dispose(void Function() listener) {
+  void onDispose(void Function() listener) {
     if (ref.mounted == false) return;
     ref.onDispose(listener);
   }
@@ -21,7 +21,7 @@ mixin NotifierListenerMixin<T> on Notifier<T> {
     listenSelf(listener);
   }
 
-  void dispose(void Function() listener) {
+  void onDispose(void Function() listener) {
     if (ref.mounted == false) return;
     ref.onDispose(listener);
   }
