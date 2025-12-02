@@ -71,7 +71,7 @@ class MainBloc
   }
 
   @override
-  void authChange<T>(T? data) {
+  void authChange() {
   }
 
   @override
@@ -278,6 +278,10 @@ class MainNotifier extends NotifierWithListener<MainRiverState> {
         inc: state.data.inc + 1,
       ),
     );
+  }
+
+  @override
+  void authChange() {
   }
 
   @override

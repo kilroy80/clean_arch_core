@@ -35,7 +35,7 @@ class MainBloc
   }
 
   @override
-  void authChange<T>(T? data) {
+  void authChange() {
   }
 
   @override

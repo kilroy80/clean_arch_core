@@ -1,5 +1,4 @@
 import 'package:clean_arch_core/clean_arch_core.dart';
-import 'package:clean_arch_core/core/riverpod/consumer_view_state.dart';
 import 'package:example/bloc/main_bloc.dart';
 import 'package:example/riverpod/main_river_state.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +235,7 @@ class _RiverPodPageState extends ConsumerState<RiverPodPage>
 
   @override
   void onWidgetReady() {
-    /// protected method
+    /// protected method (X)
     // ref.read(mainPageProvider.notifier).listenSelf((previous, next) {
     //   debugPrint('Changed from: $previous, next: $next');
     // });

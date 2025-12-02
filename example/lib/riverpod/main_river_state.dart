@@ -78,6 +78,10 @@ class MainNotifier extends NotifierWithListener<MainRiverState> {
   }
 
   @override
+  void authChange() {
+  }
+
+  @override
   void widgetPause() {
   }
 
@@ -113,6 +117,10 @@ class MainFamilyNotifier extends NotifierWithListener<MainRiverState> {
         inc: state.data.inc + 1,
       ),
     );
+  }
+
+  @override
+  void authChange() {
   }
 
   @override
