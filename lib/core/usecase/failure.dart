@@ -41,6 +41,14 @@ class StorageFailure extends Failure {
   });
 }
 
+class ServerHttpFailure extends Failure {
+  const ServerHttpFailure({
+    super.code = -1,
+    super.message = 'Server Response Http error',
+    dynamic data,
+  });
+}
+
 class ServerResponseFailure extends Failure {
   const ServerResponseFailure({
     super.code = -1,
@@ -59,13 +67,6 @@ class StateExceptionFailure extends Failure {
   const StateExceptionFailure({
     super.code = -1,
     super.message = 'State Exception Failure',
-  });
-}
-
-class MovedPermanentlyFailure extends Failure {
-  const MovedPermanentlyFailure({
-    super.code = -1,
-    super.message = 'Server Response Moved Permanently',
   });
 }
 
