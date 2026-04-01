@@ -62,6 +62,13 @@ class StateExceptionFailure extends Failure {
   });
 }
 
+class MovedPermanentlyFailure extends Failure {
+  const MovedPermanentlyFailure({
+    super.code = -1,
+    super.message = 'Server Response Moved Permanently',
+  });
+}
+
 class UnknownFailure extends Failure {
   const UnknownFailure({
     super.code = -1,
