@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-mixin ConsumerViewStateMixin<T extends ConsumerStatefulWidget>
+mixin EnhancedConsumerStateMixin<T extends ConsumerStatefulWidget>
     on ConsumerState<T> {
 
   final String tag = T.toString();

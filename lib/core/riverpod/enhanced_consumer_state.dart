@@ -1,9 +1,8 @@
-import 'package:clean_arch_core/core/viewmodel/view_model_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 
-abstract class ConsumerViewState<T extends ConsumerStatefulWidget>
+abstract class EnhancedConsumerState<T extends ConsumerStatefulWidget>
     extends ConsumerState<T>
     with WidgetsBindingObserver {
 

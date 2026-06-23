@@ -217,7 +217,7 @@ class RiverPodPage extends ConsumerStatefulWidget {
 ///  }
 ///
 class _RiverPodPageState extends ConsumerState<RiverPodPage>
-  with ConsumerViewStateMixin<RiverPodPage>,
+  with EnhancedConsumerStateMixin<RiverPodPage>,
       WidgetsBindingObserver {
 
   @override
