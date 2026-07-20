@@ -6,8 +6,8 @@ mixin EnhancedConsumerStateMixin<T extends ConsumerStatefulWidget>
 
   final String tag = T.toString();
 
-  @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
+  // @protected
+  // Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   void onAppResume();
 
@@ -25,11 +25,29 @@ mixin EnhancedConsumerStateMixin<T extends ConsumerStatefulWidget>
     if (this is WidgetsBindingObserver) {
       WidgetsBinding.instance.addObserver(this as WidgetsBindingObserver);
     }
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   onWidgetReady();
+    //   Future.delayed(postReadyMilliseconds, () {
+    //     onWidgetPostReady();
+    //   });
+    // });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       onWidgetReady();
-      Future.delayed(postReadyMilliseconds, () {
+
+      final animation = ModalRoute.of(context)?.animation;
+      if (animation == null || animation.status == AnimationStatus.completed) {
         onWidgetPostReady();
-      });
+        return;
+      }
+
+      void onAnimationEnd(AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          onWidgetPostReady();
+          animation.removeStatusListener(onAnimationEnd);
+        }
+      }
+      animation.addStatusListener(onAnimationEnd);
     });
   }
 

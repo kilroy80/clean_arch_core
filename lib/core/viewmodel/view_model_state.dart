@@ -13,8 +13,8 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
   @protected
   bool get wantAppLifeCycle;
 
-  @protected
-  Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
+  // @protected
+  // Duration get postReadyMilliseconds => const Duration(milliseconds: 350);
 
   VM createViewModel();
 
@@ -35,11 +35,29 @@ abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixi
     if (wantAppLifeCycle) {
       WidgetsBinding.instance.addObserver(this);
     }
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   onWidgetReady();
+    //   Future.delayed(postReadyMilliseconds, () {
+    //     onWidgetPostReady();
+    //   });
+    // });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       onWidgetReady();
-      Future.delayed(postReadyMilliseconds, () {
+
+      final animation = ModalRoute.of(context)?.animation;
+      if (animation == null || animation.status == AnimationStatus.completed) {
         onWidgetPostReady();
-      });
+        return;
+      }
+
+      void onAnimationEnd(AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          onWidgetPostReady();
+          animation.removeStatusListener(onAnimationEnd);
+        }
+      }
+      animation.addStatusListener(onAnimationEnd);
     });
   }
 
