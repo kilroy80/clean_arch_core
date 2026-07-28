@@ -90,7 +90,7 @@ abstract class EnhancedConsumerState<T extends ConsumerStatefulWidget>
   }
 }
 
-abstract class ProviderConsumerState<T extends ConsumerStatefulWidget, VM, STATE>
+abstract class ProviderConsumerState<T extends ConsumerStatefulWidget, NotifierT>
     extends ConsumerState<T>
     with WidgetsBindingObserver {
 
@@ -102,8 +102,11 @@ abstract class ProviderConsumerState<T extends ConsumerStatefulWidget, VM, STATE
   //
   // N get notifier => ref.read((provider as dynamic).notifier) as N;
 
-  ProviderListenable<STATE> get provider;
-  VM get viewModel => ref.read((provider as dynamic).notifier as ProviderListenable<VM>);
+  // ProviderListenable<STATE> get provider;
+  // VM get viewModel => ref.read((provider as dynamic).notifier as ProviderListenable<VM>);
+
+  @protected
+  NotifierT get notifier;
 
   @protected
   bool get wantAppLifeCycle;
