@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Success with EquatableMixin {
+abstract class Success with Equatable {
   const Success({
     required this.message,
   });

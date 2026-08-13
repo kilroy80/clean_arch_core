@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class NoParams with EquatableMixin {
+class NoParams with Equatable {
   @override
   List<Object?> get props => [];
 }

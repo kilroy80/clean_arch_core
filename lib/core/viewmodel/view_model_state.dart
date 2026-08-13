@@ -1,5 +1,5 @@
 import 'package:clean_arch_core/core/viewmodel/view_model_mixin.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class ViewModelState<T extends StatefulWidget, VM extends ViewModelMixin>
     extends State<T>
