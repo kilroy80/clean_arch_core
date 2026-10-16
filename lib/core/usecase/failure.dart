@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Failure with EquatableMixin {
+abstract class Failure with Equatable {
   final int code;
   final String message;
 
